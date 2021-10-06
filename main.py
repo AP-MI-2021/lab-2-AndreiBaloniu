@@ -1,10 +1,10 @@
 def get_temp(temp, grad1, grad2):
     '''
-
+    Aceasta functie face conversia gradelor, spre exemplu din grade Kelvin in grade Celsius si vice versa.
+    Functia face conversia si daca a fost introdus aceelasi grad, adica din C in C.
     :param temp: temperatura ce trebuie convertita
     :param grad1: unitatea de masura initiala
     :param grad2: unitatea de masura convertita
-
     '''
     if grad1 == 'C':
         if grad2 == 'K':
@@ -36,7 +36,7 @@ def get_temp(temp, grad1, grad2):
 
 
 def test_get_temp():
-
+    # Aceasta functie verifica daca gradele sunt introduse corect
     assert get_temp(10, 'a', 'C') is None
     assert get_temp(100, 'C', 'K') == 373.15
     assert get_temp(123, 'C', 'F') == 253.4
@@ -73,21 +73,55 @@ def get_cmmmc(lista):
 
 
 def test_get_cmmmc():
+    # Aceasta functie testeaza daca functia get_cmmmc calculeaza corect cmmmc-ul numerelor
     assert get_cmmmc([4, 6, 8]) == 24
     assert get_cmmmc([5, 12, 4]) == 60
     assert get_cmmmc([3, 8, 9]) == 72
+    assert get_cmmmc([28, 19, 432]) == 57456
+    assert get_cmmmc([2, 132, 4132]) == 136356
+
+
+def prim(nr):
+    # Aceasta functie returneaza daca un numar este prim
+    if nr < 2:
+        return False
+
+    for i in range(2, nr):
+        if nr % i == 0:
+            return False
+    return True
+
+
+def get_largest_prime_below(n):
+    # Aceasta functie returneaza primul predecesor prim al unui numar dat
+    if n == 3:
+        return 2
+    for i in range(n-1, 2, -1):
+        if prim(i) is True:
+            return i
+    return 'Nu exista'
+
+
+def test_get_largest_prime_below():
+    # Aceasta functie testeaza valori pentru functia get_largest_prime_below
+    assert get_largest_prime_below(25) == 23
+    assert get_largest_prime_below(213) == 211
+    assert get_largest_prime_below(5) == 3
+    assert get_largest_prime_below(19) == 17
+    assert get_largest_prime_below(1) == 'Nu exista'
 
 
 def main():
     while True:
         print('1. Conversie temperatura.')
         print('2. CMMMC a n numere.')
+        print('3. Ultimul numar prim mai mic decat un numar dat.')
         print('x. Ieșire din program')
         optiune = input('Alege optiune: ')
         if optiune == '1':
             temp = float(input('Introduceti temperatura: '))
-            grad1 = input('Introduceti tipul de grad: ')
-            grad2 = input('Introduceti in ce grad vreti sa convertiti: ')
+            grad1 = input(f'Introduceti tipul de grad: ')
+            grad2 = input(f'Introduceti in ce tip de grad vreti sa convertiti: ')
             conversie = get_temp(temp, grad1, grad2)
             print(f'Conversia a {temp} {grad1} in {grad2} este {conversie}.')
         elif optiune == '2':
@@ -98,6 +132,10 @@ def main():
                 lista_nr.append(int(numar))
             rezultat = get_cmmmc(lista_nr)
             print(f'Cmmmc ul numerelor introduse este: {rezultat}.')
+        elif optiune == '3':
+            nr = int(input('Introduceti numarul: '))
+            result = get_largest_prime_below(nr)
+            print(f'Ultimul numar prim mai mic decat numarul dat este {result}')
         elif optiune == 'x':
             break
         else:
@@ -106,4 +144,5 @@ def main():
 
 test_get_temp()
 test_get_cmmmc()
+test_get_largest_prime_below()
 main()
